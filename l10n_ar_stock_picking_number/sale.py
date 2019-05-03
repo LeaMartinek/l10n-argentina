@@ -3,7 +3,6 @@
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (c) 2014 Aconcagua Team (http://www.proyectoaconcagua.com.ar)
-#    All Rights Reserved. See AUTHORS for details.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -19,25 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name": "Numeracion Remitos Argentina",
-    "version": "1.0",
-    "depends": ["base", "stock", "sale_stock"],
-    "author": "E-MIPS",
-    "website": "http://www.proyectoaconcagua.com.ar",
-    "license": "GPL-3",
-    "category": "Localization",
-    "description": """
-    """,
-    "data": [
-        'wizard/cancel_picking_done_view.xml',
-        'stock_view.xml',
-        'stock_sequence.xml',
-    ],
-    'demo': [
-        ],
-    'test': [
-    ],
-    'installable': True,
-    'active': False,
-}
+
+from openerp.osv import osv, fields
+
+class sale_order(osv.osv):
+    _name = 'sale.order'
+    _inherit = 'sale.order'
+
+    def _prepare_order_picking(self, cr, uid, order, context=None):
+        result = super(sale_order, self)._prepare_order_picking(cr, uid, order, context=context)
+        result.update({
+        	'sale_warehouse_id': order.shop_id.warehouse_id.id,
+        	})
+        return result

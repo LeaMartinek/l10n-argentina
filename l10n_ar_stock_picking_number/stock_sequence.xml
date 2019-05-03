@@ -19,5 +19,13 @@
             <field name="company_id" eval="False"/>
         </record>
         
+<!--         <record id="seq_picking_out_ar_2" model="ir.sequence">
+            <field name="name">Picking OUT 2 AR</field>
+            <field name="code">stock.picking.out.ar</field>
+            <field name="prefix">REMITO 0002-</field>
+            <field name="padding">8</field>
+            <field name="company_id" eval="False"/>
+        </record> -->
+
     </data>
 </openerp>

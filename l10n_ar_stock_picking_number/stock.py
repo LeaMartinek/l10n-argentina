@@ -27,6 +27,7 @@ class stock_picking(osv.osv):
 
     _columns = {
         'renum_pick_id' : fields.many2one('stock.picking.out', 'Renumerated', help="Reference to the new picking created for renumerate this one. You cannot delete pickings if it is done, so it is cancelled and a new one is created, corrected and renumerated"),
+        'sale_warehouse_id' : fields.many2one('stock.warehouse', 'Warehouse'),
     }
 
     def do_partial(self, cr, uid, ids, partial_datas, context=None):
@@ -38,7 +39,9 @@ class stock_picking(osv.osv):
             pick = self.browse(cr, uid, delivered_pick_id, context=context)
 
             if pick.type == 'out':
-                new_pick_name = seq_obj.next_by_code(cr, uid, 'stock.picking.out.ar')
+                seq_id = pick.sale_warehouse_id.sequence_picking_out_id.id
+                new_pick_name = seq_obj.next_by_id(cr, uid, seq_id) 
+                #new_pick_name = seq_obj.next_by_code(cr, uid, 'stock.picking.out.ar')
                 self.write(cr, uid, delivered_pick_id, {'name': new_pick_name}, context=context)
         return res
  
@@ -50,6 +53,14 @@ class stock_picking_out(osv.osv):
 
     _columns = {
         'renum_pick_id' : fields.many2one('stock.picking.out', 'Renumerated', help="Reference to the new picking created for renumerate this one. You cannot delete pickings if it is done, so it is cancelled and a new one is created, corrected and renumerated"),
+        'sale_warehouse_id' : fields.many2one('stock.warehouse', 'Warehouse'),
+    }
+
+class stock_warehouse(osv.osv):
+    _name = "stock.warehouse"
+    _inherit = "stock.warehouse"
+    _columns = {
+        'sequence_picking_out_id': fields.many2one('ir.sequence', string='Sequence Picking Out'),
     }
 
 stock_picking_out()

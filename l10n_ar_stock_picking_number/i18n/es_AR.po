@@ -21,6 +21,17 @@ msgid "Next Action"
 msgstr "Próxima acción"
 
 #. module: l10n_ar_stock_picking_number
+#: field:stock.picking,sale_warehouse_id:0
+#: field:stock.picking.out,sale_warehouse_id:0
+msgid "Warehouse"
+msgstr "Deposito"
+
+#. module: l10n_ar_stock_picking_number
+#: field:stock.warehouse,sequence_picking_out_id:0
+msgid "Sequence Picking Out"
+msgstr "Secuencia de Remitos de Entrega"
+
+#. module: l10n_ar_stock_picking_number
 #: view:cancel.picking.done:0
 msgid "Confirm"
 msgstr "Confirmar"
