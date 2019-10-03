@@ -720,7 +720,7 @@ class wsfex_config(osv.osv):
 
     def prepare_details(self, cr, uid, conf, invoice_ids, context=None):
         company_id = self.pool.get('res.users')._get_company(cr, uid)
-        #obj_precision = self.pool.get('decimal.precision')
+        obj_precision = self.pool.get('decimal.precision')
         voucher_type_obj = self.pool.get('wsfe.voucher_type')
         invoice_obj = self.pool.get('account.invoice')
         currency_code_obj = self.pool.get('wsfex.currency.codes')
@@ -778,6 +778,8 @@ class wsfex_config(osv.osv):
                 raise osv.except_osv(_("WSFEX Error!"), _("There is no UoM Code defined for %s in line %s") % (line.uos_id.name, line.name))
 
             uom_code = uom_code_obj.read(cr, uid, uom_code_ids[0], {'code'}, context=context)['code']
+
+            precision = obj_precision.precision_get(cr, uid, 'Account')
             amount_discount_unit =  line.price_unit * (line.discount or 0.0) / 100.0
             amount_discount = line.quantity * float_round(amount_discount, precision)
 
